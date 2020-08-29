@@ -5,6 +5,12 @@ const SigninScreen = () => {
   return <Text style={{ fontSize: 48 }}>SigninScreen</Text>;
 };
 
+SigninScreen.navigationOptions = () => {
+  return {
+    header: () => false
+  };
+};
+
 const styles = StyleSheet.create({});
 
 export default SigninScreen;
