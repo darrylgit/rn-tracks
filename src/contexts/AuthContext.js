@@ -30,7 +30,7 @@ const tryLocalSignIn = dispatch => async () => {
     });
     navigate('TrackList');
   } else {
-    navigate('LoginFlow');
+    navigate('loginFlow');
   }
 };
 
