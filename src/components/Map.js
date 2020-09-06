@@ -5,30 +5,19 @@ import MapView, { Polyline, Circle } from 'react-native-maps';
 import { Context as LocationContext } from '../contexts/LocationContext';
 
 const Map = () => {
-  const {
-    state: { currentLocation }
-  } = useContext(LocationContext);
-
   let mapRef;
 
-  if (!currentLocation) {
-    return <ActivityIndicator size='large' style={{ marginTop: 200 }} />;
-  } else {
-    mapRef = React.createRef();
-  }
-
-  const [regionCoords, updateRegionCoords] = useState({
-    latitude: 34.0721664,
-    longitude: -84.1908224
-  });
+  const {
+    state: { currentLocation, center },
+    updateCenter
+  } = useContext(LocationContext);
 
   useEffect(() => {
     if (
+      currentLocation &&
       mapRef.current &&
-      (Math.abs(currentLocation.coords.latitude - regionCoords.latitude) >
-        0.0035 ||
-        Math.abs(currentLocation.coords.longitude - regionCoords.longitude) >
-          0.0035)
+      (Math.abs(currentLocation.coords.latitude - center.latitude) > 0.0035 ||
+        Math.abs(currentLocation.coords.longitude - center.longitude) > 0.0035)
     ) {
       mapRef.current.animateToRegion(
         {
@@ -37,30 +26,31 @@ const Map = () => {
           latitudeDelta: 0.01,
           longitudeDelta: 0.01
         },
-        1000
+        500
       );
 
-      updateRegionCoords({
+      updateCenter({
         latitude: currentLocation.coords.latitude,
         longitude: currentLocation.coords.longitude
       });
     }
   }, [currentLocation]);
 
+  if (!currentLocation) {
+    return <ActivityIndicator size='large' style={{ marginTop: 200 }} />;
+  } else {
+    mapRef = React.createRef();
+  }
+
   return (
     <MapView
       ref={mapRef}
       style={styles.map}
       initialRegion={{
-        ...currentLocation.coords,
+        ...center,
         latitudeDelta: 0.01,
         longitudeDelta: 0.01
       }}
-      // region={{
-      //   ...currentLocation.coords,
-      //   latitudeDelta: 0.01,
-      //   longitudeDelta: 0.01
-      // }}
     >
       <Circle
         center={currentLocation.coords}
