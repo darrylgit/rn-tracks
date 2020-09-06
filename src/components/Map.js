@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Text, StyleSheet, ActivityIndicator } from 'react-native';
 import MapView, { Polyline, Circle } from 'react-native-maps';
 
@@ -8,16 +8,18 @@ const Map = () => {
   let mapRef;
 
   const {
-    state: { currentLocation, center },
-    updateCenter
+    state: { currentLocation, regionCenter },
+    updateRegionCenter
   } = useContext(LocationContext);
 
   useEffect(() => {
     if (
       currentLocation &&
       mapRef.current &&
-      (Math.abs(currentLocation.coords.latitude - center.latitude) > 0.0035 ||
-        Math.abs(currentLocation.coords.longitude - center.longitude) > 0.0035)
+      (Math.abs(currentLocation.coords.latitude - regionCenter.latitude) >
+        0.0035 ||
+        Math.abs(currentLocation.coords.longitude - regionCenter.longitude) >
+          0.0035)
     ) {
       mapRef.current.animateToRegion(
         {
@@ -29,7 +31,7 @@ const Map = () => {
         500
       );
 
-      updateCenter({
+      updateRegionCenter({
         latitude: currentLocation.coords.latitude,
         longitude: currentLocation.coords.longitude
       });
@@ -47,7 +49,7 @@ const Map = () => {
       ref={mapRef}
       style={styles.map}
       initialRegion={{
-        ...center,
+        ...regionCenter,
         latitudeDelta: 0.01,
         longitudeDelta: 0.01
       }}
