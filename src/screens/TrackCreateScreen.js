@@ -1,6 +1,6 @@
 import '../_mockLocation';
 import React, { useContext, useCallback } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, KeyboardAvoidingView, ScrollView } from 'react-native';
 import { SafeAreaView, withNavigationFocus } from 'react-navigation';
 import { Text } from 'react-native-elements';
 
@@ -26,14 +26,26 @@ const TrackCreateScreen = ({ isFocused }) => {
 
   return (
     <SafeAreaView forceInset={{ top: 'always' }}>
-      <Text h2>Create a Track</Text>
-      <Map />
-      {err ? <Text>Please enable location services</Text> : null}
-      <TrackForm />
+      <KeyboardAvoidingView
+      // behavior={Platform.OS === 'ios' ? 'position' : null}
+      // style={styles.container}
+      // keyboardVerticalOffset={90}
+      >
+        <ScrollView>
+          <Text h2>Create a Track</Text>
+          <Map />
+          {err ? <Text>Please enable location services</Text> : null}
+          <TrackForm />
+        </ScrollView>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  }
+});
 
 export default withNavigationFocus(TrackCreateScreen);
