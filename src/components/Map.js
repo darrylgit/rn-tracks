@@ -8,7 +8,7 @@ const Map = () => {
   let mapRef;
 
   const {
-    state: { currentLocation, regionCenter },
+    state: { currentLocation, regionCenter, locations },
     updateRegionCenter
   } = useContext(LocationContext);
 
@@ -60,6 +60,7 @@ const Map = () => {
         strokeColor='rgba(158, 158, 255, 1.0)'
         fillColor='rgba(158, 158, 255, 0.3)'
       />
+      <Polyline coordinates={locations.map(loc => loc.coords)} />
     </MapView>
   );
 };
