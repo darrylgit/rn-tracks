@@ -3,6 +3,7 @@ import React, { useContext, useCallback } from 'react';
 import { StyleSheet, KeyboardAvoidingView, ScrollView } from 'react-native';
 import { SafeAreaView, withNavigationFocus } from 'react-navigation';
 import { Text } from 'react-native-elements';
+import { FontAwesome } from '@expo/vector-icons';
 
 import Map from '../components/Map';
 import { Context as LocationContext } from '../contexts/LocationContext';
@@ -26,11 +27,7 @@ const TrackCreateScreen = ({ isFocused }) => {
 
   return (
     <SafeAreaView forceInset={{ top: 'always' }}>
-      <KeyboardAvoidingView
-      // behavior={Platform.OS === 'ios' ? 'position' : null}
-      // style={styles.container}
-      // keyboardVerticalOffset={90}
-      >
+      <KeyboardAvoidingView>
         <ScrollView>
           <Text h2>Create a Track</Text>
           <Map />
@@ -40,6 +37,13 @@ const TrackCreateScreen = ({ isFocused }) => {
       </KeyboardAvoidingView>
     </SafeAreaView>
   );
+};
+
+TrackCreateScreen.navigationOptions = () => {
+  return {
+    title: 'Add Track',
+    tabBarIcon: <FontAwesome name='plus' size={20} />
+  };
 };
 
 const styles = StyleSheet.create({
